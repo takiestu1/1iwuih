@@ -80,16 +80,18 @@ spawn(function()
     end
 end)
 
--- Teleport to Cafe
-MainTab:AddButton({
-    Name = "Teleport to Cafe",
-    Default = false,
+local Section = Tab:AddSection({
+    Name = "Auto Functions"
+})
+
+Section:AddButton({
+    Name = "Auto Teleport Cafe",
     Callback = function()
         _G.AutoTeleportCafe = not _G.AutoTeleportCafe
         while _G.AutoTeleportCafe do
             wait()
             local player = game.Players.LocalPlayer
-            local cafePosition = Vector3.new(357.69390869140625, 477.37457275390625, -5504.70458984375)  -- Replace these coordinates if needed
+            local cafePosition = Vector3.new(355.42730712890625, 477.48077392578125, -5501.91748046875)  -- Replace these coordinates if needed
             player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
         end
     end
@@ -130,5 +132,5 @@ OrionLib:MakeNotification({
     Name = "Night Hub",
     Content = "Loading Config Complete!!",
     Image = "rbxassetid://4483345998",
-    Time = 5
+    Time = 1
 })
