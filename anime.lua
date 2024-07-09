@@ -70,6 +70,7 @@ spawn(function()
         player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
     end
 end)
+OrionLib:Init()
 
 function EquipWeapon(weaponName)
     local player = game:GetService("Players").LocalPlayer
