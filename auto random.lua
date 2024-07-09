@@ -80,6 +80,23 @@ spawn(function()
     end
 end)
 
+local Section = Tab:AddSection({
+    Name = "Auto Functions"
+})
+
+Section:AddButton({
+    Name = "Auto Teleport Cafe",
+    Callback = function()
+        _G.AutoTeleportCafe = not _G.AutoTeleportCafe
+        while _G.AutoTeleportCafe do
+            wait()
+            local player = game.Players.LocalPlayer
+            local cafePosition = Vector3.new(355.42730712890625, 477.48077392578125, -5501.91748046875)  -- Replace these coordinates if needed
+            player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
+        end
+    end
+})
+
 -- Auto-enable the functions
 _G.AutoRandomFruit = true
 _G.AutoDropFruit = true
