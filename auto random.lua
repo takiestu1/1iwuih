@@ -84,19 +84,6 @@ end)
 _G.Random_Auto = _G.Random_Auto or false
 _G.DropFruit = _G.DropFruit or false
 
--- Teleport to Cafe
-MainTab:AddButton({
-    Name = "Teleport to Cafe",
-    Callback = function()
-        local teleportPositions = {
-            ["Cafe"] = CFrame.new(355.42730712890625, 477.48077392578125, -5501.91748046875)
-        }
-        local selectedPosition = teleportPositions["Cafe"]
-        if selectedPosition then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedPosition
-        end
-    end    
-})
 
 -- Finish the script
 OrionLib:Init()
@@ -131,7 +118,7 @@ spawn(function()
     while _G.AutoTeleportCafe do
         wait()
         local player = game.Players.LocalPlayer
-        local cafePosition = Vector3.new(355.42730712890625, 477.48077392578125, -5501.91748046875)  -- Replace these coordinates if needed
+        local cafePosition = Vector3.new(413.0200500488281, 452.4256286621094, -5276.75390625)  -- Replace these coordinates if needed
         player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
     end
 end)
