@@ -44,13 +44,13 @@ MainTab:AddToggle({
     Flag = "Auto Drop Fruit",
     Save = true,
     Callback = function(Value)
-        _G.Drop_Fruit = Value
+        _G.Drop_Fruit1 = Value
     end    
 })
 
 spawn(function()
     while wait() do
-        if _G.DropFruit then
+        if _G.Drop_Fruit1 then
             pcall(function()
                 local player = game:GetService("Players").LocalPlayer
                 for _,v in pairs(player.Backpack:GetChildren()) do
