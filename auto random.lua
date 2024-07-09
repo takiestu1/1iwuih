@@ -21,7 +21,7 @@ MainTab:AddButton({
 
 MainTab:AddToggle({
     Name = "Auto Random Fruits",
-    Default = true,
+    Default = false,
     Flag = "Auto Random Fruits",
     Save = true,
     Callback = function(Value)
@@ -40,7 +40,7 @@ end)
 -- Auto Drop Fruit
 MainTab:AddToggle({
     Name = "Auto Drop Fruit",
-    Default = true,
+    Default = false,
     Flag = "Auto Drop Fruit",
     Save = true,
     Callback = function(Value)
@@ -56,7 +56,7 @@ spawn(function()
                 for _,v in pairs(player.Backpack:GetChildren()) do
                     if string.find(v.Name, "Fruit") then
                         EquipWeapon(v.Name)
-                        wait(10)
+                        wait(0.1)
                         if player.PlayerGui.Main.Dialogue.Visible == true then
                             player.PlayerGui.Main.Dialogue.Visible = false
                         end
@@ -80,12 +80,16 @@ spawn(function()
     end
 end)
 
+-- Ensure Auto Random Fruits and Auto Drop Fruit are running
+_G.Random_Auto = _G.Random_Auto or false
+_G.DropFruit = _G.DropFruit or false
+
 -- Teleport to Cafe
 MainTab:AddButton({
     Name = "Teleport to Cafe",
     Callback = function()
         local teleportPositions = {
-            ["Cafe"] = CFrame.new(413.0200500488281, 452.4256286621094, -5276.75390625)
+            ["Cafe"] = CFrame.new(355.42730712890625, 477.48077392578125, -5501.91748046875)
         }
         local selectedPosition = teleportPositions["Cafe"]
         if selectedPosition then
@@ -118,32 +122,16 @@ end
 
 OrionLib:Init()
 -- Auto-enable the functions
-_G.AutoRandomFruit = true
-_G.AutoDropFruit = true
+_G.Random_Auto = true
+_G.DropFruit = true
 _G.AutoTeleportCafe = true
-
--- Auto Random Fruit function
-spawn(function()
-    while _G.AutoRandomFruit do
-        wait()
-        -- Insert the script to auto random fruit here
-    end
-end)
-
--- Auto Drop Fruit function
-spawn(function()
-    while _G.AutoDropFruit do
-        wait()
-        -- Insert the script to auto drop fruit here
-    end
-end)
 
 -- Auto Teleport Cafe function
 spawn(function()
     while _G.AutoTeleportCafe do
         wait()
         local player = game.Players.LocalPlayer
-        local cafePosition = Vector3.new(413.0200500488281, 452.4256286621094, -5276.75390625)  -- Replace these coordinates if needed
+        local cafePosition = Vector3.new(355.42730712890625, 477.48077392578125, -5501.91748046875)  -- Replace these coordinates if needed
         player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
     end
 end)
