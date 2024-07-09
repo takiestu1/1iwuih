@@ -28,6 +28,8 @@ MainTab:AddToggle({
         _G.Random_Auto = Value
     end    
 })
+OrionLib:Init()
+_G.Random_Auto = true
 
 spawn(function()
     while wait(0.1) do
