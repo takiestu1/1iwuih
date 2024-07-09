@@ -11,6 +11,25 @@ local MainTab = Window:MakeTab({
     PremiumOnly = false
 })
 
+-- Helper function to equip weapon
+local function EquipWeapon(weaponName)
+    local player = game:GetService("Players").LocalPlayer
+    if player.Backpack:FindFirstChild(weaponName) then
+        player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild(weaponName))
+    end
+end
+
+-- Helper function to stop tweening
+local function StopTween(active)
+    if not active then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(1),
+            {CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame}
+        ):Play()
+    end
+end
+
 -- Auto Random Fruits
 MainTab:AddButton({
     Name = "Random Fruits",
@@ -28,8 +47,6 @@ MainTab:AddToggle({
         _G.Random_Auto = Value
     end    
 })
-OrionLib:Init()
-_G.Random_Auto = true
 
 spawn(function()
     while wait(0.1) do
@@ -96,34 +113,57 @@ MainTab:AddButton({
     end    
 })
 
--- Finish the script
+-- Initialize Orion Library
 OrionLib:Init()
 
--- Helper function to equip weapon
-function EquipWeapon(weaponName)
-    local player = game:GetService("Players").LocalPlayer
-    if player.Backpack:FindFirstChild(weaponName) then
-        player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild(weaponName))
+-- Ensure Auto Random Fruits and Auto Drop Fruit are running
+_G.Random_Auto = _G.Random_Auto or false
+_G.DropFruit = _G.DropFruit or false
+
+-- Ensure Auto Random Fruits and Auto Drop Fruit are active on script load
+spawn(function()
+    game.Loaded:Wait()
+    if _G.Random_Auto then
+        spawn(function()
+            while wait(0.1) do
+                if _G.Random_Auto then
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "Buy")
+                end
+            end
+        end)
     end
-end
 
--- Helper function to stop tweening
-function StopTween(active)
-    if not active then
-        game:GetService("TweenService"):Create(
-            game.Players.LocalPlayer.Character.HumanoidRootPart,
-            TweenInfo.new(1),
-            {CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame}
-        ):Play()
+    if _G.DropFruit then
+        spawn(function()
+            while wait() do
+                if _G.DropFruit then
+                    pcall(function()
+                        local player = game:GetService("Players").LocalPlayer
+                        for _,v in pairs(player.Backpack:GetChildren()) do
+                            if string.find(v.Name, "Fruit") then
+                                EquipWeapon(v.Name)
+                                wait(0.1)
+                                if player.PlayerGui.Main.Dialogue.Visible == true then
+                                    player.PlayerGui.Main.Dialogue.Visible = false
+                                end
+                                EquipWeapon(v.Name)
+                                player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
+                            end
+                        end
+                        for _,v in pairs(player.Character:GetChildren()) do
+                            if string.find(v.Name, "Fruit") then
+                                EquipWeapon(v.Name)
+                                wait(0.1)
+                                if player.PlayerGui.Main.Dialogue.Visible == true then
+                                    player.PlayerGui.Main.Dialogue.Visible = false
+                                end
+                                EquipWeapon(v.Name)
+                                player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
+                            end
+                        end
+                    end)
+                end
+            end
+        end)
     end
-end
-
-OrionLib:Init()
-_G.Random_Auto = true
-
-OrionLib:MakeNotification({
-    Name = "Night Hub",
-    Content = "Loading script complete!, You can now enable the function!",
-    Image = "rbxassetid://4483345998",
-    Time = 5
-})
+end)
