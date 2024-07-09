@@ -101,6 +101,7 @@ OrionLib:Init()
 -- Ensure Auto Random Fruits and Auto Drop Fruit are running
 _G.Random_Auto = true
 _G.DropFruit = true
+ _G.AutoTeleportCafe = true
 
 -- Helper function to equip weapon
 function EquipWeapon(weaponName)
