@@ -17,15 +17,33 @@ local Section = Tab:AddSection({
     Name = "Auto Functions"
 })
 
-Section:AddButton({
-    Name = "Auto Random Fruit",
+D:AddButton({
+    Name = "Random Fruits",
     Callback = function()
-        _G.AutoRandomFruit = not _G.AutoRandomFruit
-        while _G.AutoRandomFruit do
-            wait()
-            -- Insert the script to auto random fruit here
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin","Buy")
+      end    
+})
+
+D:AddToggle({
+    Name = "Auto Random Fruits",
+    Default = false,
+    Flag = "Auto Random Fruits",
+    Save = true,
+    Callback = function(Value)
+        _G.Random_Auto = Value
+    end    
+})
+
+spawn(function()
+    pcall(function()
+        while wait(.1) do
+            if _G.Random_Auto then
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin","Buy")
+            end 
         end
-    end
+    end)
+end)
+
 })
 
 Section:AddButton({
