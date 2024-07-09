@@ -89,11 +89,4 @@ function StopTween(active)
     end
 end
 
-OrionLib:Init()
 
-OrionLib:MakeNotification({
-    Name = "Night Hub",
-    Content = "Loading Config Complete!!",
-    Image = "rbxassetid://4483345998",
-    Time = 5
-})
