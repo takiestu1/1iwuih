@@ -46,7 +46,7 @@ Section:AddButton({
         while _G.AutoTeleportCafe do
             wait()
             local player = game.Players.LocalPlayer
-            local cafePosition = Vector3.new(61163.8515625, 11.6796875, 1819.7841796875)  -- Replace these coordinates if needed
+            local cafePosition = Vector3.new(-427.2214050292969, 240.67694091796875, -198.3234405517578)  -- Replace these coordinates if needed
             player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
         end
     end
