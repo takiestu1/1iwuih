@@ -1,34 +1,25 @@
+-- Load Orion Library
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = OrionLib:MakeWindow({
-    Name = "TOÀN ĐẸP ZAI",
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "NightHubConfig"
-})
+-- Create a Window
+local Window = OrionLib:MakeWindow({Name = "My Script", HidePremium = false, SaveConfig = true, ConfigFolder = "MyScriptConfig"})
 
-local Tab = Window:MakeTab({
+-- Create Tabs
+local MainTab = Window:MakeTab({
     Name = "Main",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-local Section = Tab:AddSection({
-    Name = "Auto Functions"
-})
-
-local Section = Tab:AddSection({
-    Name = "Auto Functions"
-})
-
-Section:AddButton({
+-- Auto Random Fruits
+MainTab:AddButton({
     Name = "Random Fruits",
     Callback = function()
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin","Buy")
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "Buy")
     end    
 })
 
-Section:AddToggle({
+MainTab:AddToggle({
     Name = "Auto Random Fruits",
     Default = false,
     Flag = "Auto Random Fruits",
@@ -38,84 +29,138 @@ Section:AddToggle({
     end    
 })
 
--- Chạy một coroutine để thực hiện hành động liên tục
 spawn(function()
     while wait(0.1) do
         if _G.Random_Auto then
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin","Buy")
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "Buy")
         end 
     end
 end)
 
-})
-
-Section:AddButton({
+-- Auto Drop Fruit
+MainTab:AddToggle({
     Name = "Auto Drop Fruit",
-    Callback = function()
-        _G.AutoDropFruit = not _G.AutoDropFruit
-        while _G.AutoDropFruit do
-            wait()
-            -- Insert the script to auto drop fruit here
+    Default = false,
+    Flag = "Auto Drop Fruit",
+    Save = true,
+    Callback = function(Value)
+        _G.DropFruit = Value
+    end    
+})
+
+spawn(function()
+    while wait() do
+        if _G.DropFruit then
+            pcall(function()
+                local player = game:GetService("Players").LocalPlayer
+                for _,v in pairs(player.Backpack:GetChildren()) do
+                    if string.find(v.Name, "Fruit") then
+                        EquipWeapon(v.Name)
+                        wait(0.1)
+                        if player.PlayerGui.Main.Dialogue.Visible == true then
+                            player.PlayerGui.Main.Dialogue.Visible = false
+                        end
+                        EquipWeapon(v.Name)
+                        player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
+                    end
+                end
+                for _,v in pairs(player.Character:GetChildren()) do
+                    if string.find(v.Name, "Fruit") then
+                        EquipWeapon(v.Name)
+                        wait(0.1)
+                        if player.PlayerGui.Main.Dialogue.Visible == true then
+                            player.PlayerGui.Main.Dialogue.Visible = false
+                        end
+                        EquipWeapon(v.Name)
+                        player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
+                    end
+                end
+            end)
         end
     end
-})
+end)
 
-Section:AddButton({
-    Name = "Auto Teleport Cafe",
+-- Teleport to Cafe
+MainTab:AddButton({
+    Name = "Teleport to Cafe",
     Callback = function()
-        _G.AutoTeleportCafe = not _G.AutoTeleportCafe
-        while _G.AutoTeleportCafe do
-            wait()
-            local player = game.Players.LocalPlayer
-            local cafePosition = Vector3.new(-427.2214050292969, 240.67694091796875, -198.3234405517578)  -- Replace these coordinates if needed
-            player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
+        local teleportPositions = {
+            ["Cafe"] = CFrame.new(-380.479, 77.2204, 255.825)
+        }
+        local selectedPosition = teleportPositions["Cafe"]
+        if selectedPosition then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedPosition
         end
-    end
+    end    
 })
 
-OrionLib:MakeNotification({
-    Name = "Night Hub",
-    Content = "Loading script complete!, You can now enable the function!",
-    Image = "rbxassetid://4483345998",
-    Time = 5
-})
-
--- Auto-enable the functions
-_G.AutoRandomFruit = true
-_G.AutoDropFruit = true
-_G.AutoTeleportCafe = true
-
--- Auto Random Fruit function
-spawn(function()
-    while _G.AutoRandomFruit do
-        wait()
-        -- Insert the script to auto random fruit here
-    end
-end)
-
--- Auto Drop Fruit function
-spawn(function()
-    while _G.AutoDropFruit do
-        wait()
-        -- Insert the script to auto drop fruit here
-    end
-end)
-
--- Auto Teleport Cafe function
-spawn(function()
-    while _G.AutoTeleportCafe do
-        wait()
-        local player = game.Players.LocalPlayer
-        local cafePosition = Vector3.new(61163.8515625, 11.6796875, 1819.7841796875)  -- Replace these coordinates if needed
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
-    end
-end)
-
+-- Initialize Orion Library
 OrionLib:Init()
 
-OrionLib:MakeNotification({
-    Name = "Night Hub",
-    Content = "Loading Config Complete!!",
-    Image = "rbxassetid://4483345998",
-    Time = 5
-})
+-- Ensure Auto Random Fruits and Auto Drop Fruit are running
+_G.Random_Auto = _G.Random_Auto or false
+_G.DropFruit = _G.DropFruit or false
+
+-- Helper function to equip weapon
+function EquipWeapon(weaponName)
+    local player = game:GetService("Players").LocalPlayer
+    if player.Backpack:FindFirstChild(weaponName) then
+        player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild(weaponName))
+    end
+end
+
+-- Helper function to stop tweening
+function StopTween(active)
+    if not active then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(1),
+            {CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame}
+        ):Play()
+    end
+end
+
+-- Ensure Auto Random Fruits and Auto Drop Fruit are active on script load
+if _G.Random_Auto then
+    spawn(function()
+        while wait(0.1) do
+            if _G.Random_Auto then
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "Buy")
+            end
+        end
+    end)
+end
+
+if _G.DropFruit then
+    spawn(function()
+        while wait() do
+            if _G.DropFruit then
+                pcall(function()
+                    local player = game:GetService("Players").LocalPlayer
+                    for _,v in pairs(player.Backpack:GetChildren()) do
+                        if string.find(v.Name, "Fruit") then
+                            EquipWeapon(v.Name)
+                            wait(0.1)
+                            if player.PlayerGui.Main.Dialogue.Visible == true then
+                                player.PlayerGui.Main.Dialogue.Visible = false
+                            end
+                            EquipWeapon(v.Name)
+                            player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
+                        end
+                    end
+                    for _,v in pairs(player.Character:GetChildren()) do
+                        if string.find(v.Name, "Fruit") then
+                            EquipWeapon(v.Name)
+                            wait(0.1)
+                            if player.PlayerGui.Main.Dialogue.Visible == true then
+                                player.PlayerGui.Main.Dialogue.Visible = false
+                            end
+                            EquipWeapon(v.Name)
+                            player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
+                        end
+                    end
+                end)
+            end
+        end
+    end)
+end
