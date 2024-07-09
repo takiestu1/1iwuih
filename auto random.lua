@@ -21,7 +21,7 @@ MainTab:AddButton({
 
 MainTab:AddToggle({
     Name = "Auto Random Fruits",
-    Default = false,
+    Default = true,
     Flag = "Auto Random Fruits",
     Save = true,
     Callback = function(Value)
@@ -40,7 +40,7 @@ end)
 -- Auto Drop Fruit
 MainTab:AddToggle({
     Name = "Auto Drop Fruit",
-    Default = false,
+    Default = true,
     Flag = "Auto Drop Fruit",
     Save = true,
     Callback = function(Value)
