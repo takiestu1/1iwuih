@@ -124,3 +124,5 @@ OrionLib:MakeNotification({
 })
 
 OrionLib:Init()
+_G.Random_Auto = _G.Random_Auto or false
+_G.DropFruit = _G.DropFruit or false
