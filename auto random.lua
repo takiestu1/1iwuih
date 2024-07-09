@@ -112,9 +112,6 @@ spawn(function()
     end
 end)
 
--- Initialize Orion Library
-OrionLib:Init()
-
 -- Ensure Auto Random Fruits and Auto Drop Fruit are running
 _G.Random_Auto = true
 _G.DropFruit = true
@@ -142,6 +139,9 @@ end
 
 
 OrionLib:Init()
+
+_G.Random_Auto = _G.Random_Auto or false
+_G.DropFruit = _G.DropFruit or false
 
 OrionLib:MakeNotification({
     Name = "Night Hub",
