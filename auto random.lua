@@ -37,13 +37,22 @@ spawn(function()
     end
 end)
 
-local function EquipWeapon(weaponName)
+local MainTab1 = Window:MakeTab({
+    Name = "Main1",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+MainTab1:AddButton({
+    Name = "Drop Fruits",
+    Callback = function()
     local player = game:GetService("Players").LocalPlayer
     if player.Backpack:FindFirstChild(weaponName) then
         player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild(weaponName))
     end
 end
-
+})
+|
 -- Auto Drop Fruit Toggle
 MainTab:AddToggle({
     Name = "Auto Drop Fruit",
