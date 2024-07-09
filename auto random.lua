@@ -44,7 +44,7 @@ MainTab:AddToggle({
     Flag = "Auto Drop Fruit",
     Save = true,
     Callback = function(Value)
-        _G.DropFruit = Value
+        _G.Drop_Fruit = Value
     end    
 })
 
@@ -133,7 +133,7 @@ OrionLib:Init()
 
 -- Ensure Auto Random Fruits and Auto Drop Fruit are running
 _G.Random_Auto = true
-_G.DropFruit = true
+_G.Drop_Fruit = true
 _G.AutoTeleportCafe = true
 
 -- Helper function to equip weapon
@@ -163,5 +163,5 @@ OrionLib:MakeNotification({
     Name = "Night Hub",
     Content = "Loading Config Complete!!",
     Image = "rbxassetid://4483345998",
-    Time = 1
+    Time = 0,1
 })
