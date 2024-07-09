@@ -25,33 +25,18 @@ MainTab:AddToggle({
     Flag = "Auto Random Fruits",
     Save = true,
     Callback = function(Value)
-        _G.Random_Auto = Value
+        getgenv().BANANACATBF.Random_Auto = Value
     end    
 })
 
 spawn(function()
     while wait(0.1) do
-        if _G.Random_Auto then
+        if getgenv().BANANACATBF..Random_Auto then
             game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "Buy")
         end 
     end
 end)
 
-local MainTab1 = Window:MakeTab({
-    Name = "Main1",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-MainTab1:AddButton({
-    Name = "Drop Fruits",
-    Callback = function()
-    local player = game:GetService("Players").LocalPlayer
-    if player.Backpack:FindFirstChild(weaponName) then
-        player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild(weaponName))
-    end
-end
-})
 |
 -- Auto Drop Fruit Toggle
 MainTab:AddToggle({
@@ -60,7 +45,7 @@ MainTab:AddToggle({
     Flag = "Auto Drop Fruit",
     Save = true,
     Callback = function(Value)
-        _G.DropFruit = Value
+        getgenv().BANANACATBF.DropFruit = Value
     end    
 })
 
@@ -98,7 +83,7 @@ _G.AutoTeleportCafe = true
 
 -- Auto Random Fruit function
 spawn(function()
-    while _G.AutoRandomFruit do
+    while getgenv().BANANACATBF..AutoRandomFruit do
         wait()
         -- Insert the script to auto random fruit here
     end
@@ -106,7 +91,7 @@ end)
 
 -- Auto Drop Fruit function
 spawn(function()
-    while _G.AutoDropFruit do
+    while getgenv().BANANACATBF..AutoDropFruit do
         wait()
         -- Insert the script to auto drop fruit here
     end
@@ -114,7 +99,7 @@ end)
 
 -- Auto Teleport Cafe function
 spawn(function()
-    while _G.AutoTeleportCafe do
+    while getgenv().BANANACATBF..AutoTeleportCafe do
         wait()
         local player = game.Players.LocalPlayer
         local cafePosition = Vector3.new(355.42730712890625, 477.48077392578125, -5501.91748046875)  -- Replace these coordinates if needed
@@ -146,9 +131,6 @@ end
 
 OrionLib:Init()
 
-_G.Random_Auto = _G.Random_Auto or false
-_G.DropFruit = _G.DropFruit or false
-_G.AutoTeleportCafe = true
 
 OrionLib:MakeNotification({
     Name = "Night Hub",
