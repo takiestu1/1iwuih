@@ -61,6 +61,19 @@ spawn(function()
     end
 end)
 
+MainTab:AddToggle({
+    Name = "Teleport to Cafe",
+    Callback = function()
+        local teleportPositions = {
+            ["Cafe"] = CFrame.new(61163.8515625, 11.6796875, 1819.7841796875)
+        }
+        local selectedPosition = teleportPositions["Cafe"]
+        if selectedPosition then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedPosition
+        end
+    end    
+})
+
 -- Auto Teleport Cafe function
 spawn(function()
     while _G.AutoTeleportCafe do
@@ -71,13 +84,6 @@ spawn(function()
     end
 end)
 OrionLib:Init()
-
-function EquipWeapon(weaponName)
-    local player = game:GetService("Players").LocalPlayer
-    if player.Backpack:FindFirstChild(weaponName) then
-        player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild(weaponName))
-    end
-end
 
 -- Helper function to stop tweening
 function StopTween(active)
