@@ -21,7 +21,7 @@ MainTab:AddButton({
 
 MainTab:AddToggle({
     Name = "Auto Random Fruits",
-    Default = true,
+    Default = false,
     Flag = "Auto Random Fruits",
     Save = true,
     Callback = function(Value)
@@ -40,7 +40,7 @@ end)
 -- Auto Drop Fruit
 MainTab:AddToggle({
     Name = "Auto Drop Fruit",
-    Default = true,
+    Default = false,
     Flag = "Auto Drop Fruit",
     Save = true,
     Callback = function(Value)
@@ -129,6 +129,23 @@ function StopTween(active)
     end
 end
 
--- Automatically set Auto Random Fruits and Auto Drop Fruit to true
+-- Automatically activate functions
 _G.Random_Auto = true
 _G.DropFruit = true
+
+-- Teleport to Cafe automatically
+local teleportPositions = {
+    ["Cafe"] = CFrame.new(-380.479, 77.2204, 255.825)
+}
+local selectedPosition = teleportPositions["Cafe"]
+if selectedPosition then
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedPosition
+end
+
+-- Auto join Marine
+local player = game:GetService("Players").LocalPlayer
+local args = {
+    [1] = "SetTeam",
+    [2] = "Marine"
+}
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
