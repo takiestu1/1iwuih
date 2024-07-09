@@ -85,7 +85,7 @@ MainTab:AddButton({
     Name = "Teleport to Cafe",
     Callback = function()
         local teleportPositions = {
-            ["Cafe"] = CFrame.new(-427.2214050292969, 240.67694091796875, -198.3234405517578)
+            ["Cafe"] = CFrame.new(355.42730712890625, 477.48077392578125, -5501.91748046875)
         }
         local selectedPosition = teleportPositions["Cafe"]
         if selectedPosition then
