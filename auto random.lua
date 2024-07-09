@@ -44,13 +44,13 @@ MainTab:AddToggle({
     Flag = "Auto Drop Fruit",
     Save = true,
     Callback = function(Value)
-        _G.Drop_Fruit1 = Value
+        _G.DropFruit = Value
     end    
 })
 
 spawn(function()
     while wait() do
-        if _G.Drop_Fruit1 then
+        if _G.DropFruit then
             pcall(function()
                 local player = game:GetService("Players").LocalPlayer
                 for _,v in pairs(player.Backpack:GetChildren()) do
@@ -133,7 +133,7 @@ OrionLib:Init()
 
 -- Ensure Auto Random Fruits and Auto Drop Fruit are running
 _G.Random_Auto = true
-_G.Drop_Fruit = true
+_G.DropFruit = true
 _G.AutoTeleportCafe = true
 
 -- Helper function to equip weapon
