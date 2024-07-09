@@ -80,22 +80,36 @@ spawn(function()
     end
 end)
 
-local Section = Tab:AddSection({
-    Name = "Auto Functions"
-})
+-- Auto-enable the functions
+_G.AutoRandomFruit = true
+_G.AutoDropFruit = true
+_G.AutoTeleportCafe = true
 
-Section:AddButton({
-    Name = "Auto Teleport Cafe",
-    Callback = function()
-        _G.AutoTeleportCafe = not _G.AutoTeleportCafe
-        while _G.AutoTeleportCafe do
-            wait()
-            local player = game.Players.LocalPlayer
-            local cafePosition = Vector3.new(355.42730712890625, 477.48077392578125, -5501.91748046875)  -- Replace these coordinates if needed
-            player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
-        end
+-- Auto Random Fruit function
+spawn(function()
+    while _G.AutoRandomFruit do
+        wait()
+        -- Insert the script to auto random fruit here
     end
-})
+end)
+
+-- Auto Drop Fruit function
+spawn(function()
+    while _G.AutoDropFruit do
+        wait()
+        -- Insert the script to auto drop fruit here
+    end
+end)
+
+-- Auto Teleport Cafe function
+spawn(function()
+    while _G.AutoTeleportCafe do
+        wait()
+        local player = game.Players.LocalPlayer
+        local cafePosition = Vector3.new(355.42730712890625, 477.48077392578125, -5501.91748046875)  -- Replace these coordinates if needed
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
+    end
+end)
 
 -- Initialize Orion Library
 OrionLib:Init()
