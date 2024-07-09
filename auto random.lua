@@ -17,14 +17,18 @@ local Section = Tab:AddSection({
     Name = "Auto Functions"
 })
 
-D:AddButton({
+local Section = Tab:AddSection({
+    Name = "Auto Functions"
+})
+
+Section:AddButton({
     Name = "Random Fruits",
     Callback = function()
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin","Buy")
-      end    
+    end    
 })
 
-D:AddToggle({
+Section:AddToggle({
     Name = "Auto Random Fruits",
     Default = false,
     Flag = "Auto Random Fruits",
@@ -34,14 +38,13 @@ D:AddToggle({
     end    
 })
 
+-- Chạy một coroutine để thực hiện hành động liên tục
 spawn(function()
-    pcall(function()
-        while wait(.1) do
-            if _G.Random_Auto then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin","Buy")
-            end 
-        end
-    end)
+    while wait(0.1) do
+        if _G.Random_Auto then
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin","Buy")
+        end 
+    end
 end)
 
 })
