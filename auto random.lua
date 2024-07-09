@@ -56,7 +56,7 @@ spawn(function()
                 for _,v in pairs(player.Backpack:GetChildren()) do
                     if string.find(v.Name, "Fruit") then
                         EquipWeapon(v.Name)
-                        wait(0.1)
+                        wait(10)
                         if player.PlayerGui.Main.Dialogue.Visible == true then
                             player.PlayerGui.Main.Dialogue.Visible = false
                         end
