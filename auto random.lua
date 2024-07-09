@@ -11,25 +11,6 @@ local MainTab = Window:MakeTab({
     PremiumOnly = false
 })
 
--- Helper function to equip weapon
-local function EquipWeapon(weaponName)
-    local player = game:GetService("Players").LocalPlayer
-    if player.Backpack:FindFirstChild(weaponName) then
-        player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild(weaponName))
-    end
-end
-
--- Helper function to stop tweening
-local function StopTween(active)
-    if not active then
-        game:GetService("TweenService"):Create(
-            game.Players.LocalPlayer.Character.HumanoidRootPart,
-            TweenInfo.new(1),
-            {CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame}
-        ):Play()
-    end
-end
-
 -- Auto Random Fruits
 MainTab:AddButton({
     Name = "Random Fruits",
@@ -104,7 +85,7 @@ MainTab:AddButton({
     Name = "Teleport to Cafe",
     Callback = function()
         local teleportPositions = {
-            ["Cafe"] = CFrame.new(-380.479, 77.2204, 255.825)
+            ["Cafe"] = CFrame.new(355.42730712890625, 477.48077392578125, -5501.91748046875)
         }
         local selectedPosition = teleportPositions["Cafe"]
         if selectedPosition then
@@ -113,57 +94,65 @@ MainTab:AddButton({
     end    
 })
 
--- Initialize Orion Library
+-- Finish the script
 OrionLib:Init()
 
--- Ensure Auto Random Fruits and Auto Drop Fruit are running
-_G.Random_Auto = _G.Random_Auto or false
-_G.DropFruit = _G.DropFruit or false
-
--- Ensure Auto Random Fruits and Auto Drop Fruit are active on script load
-spawn(function()
-    game.Loaded:Wait()
-    if _G.Random_Auto then
-        spawn(function()
-            while wait(0.1) do
-                if _G.Random_Auto then
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "Buy")
-                end
-            end
-        end)
+-- Helper function to equip weapon
+function EquipWeapon(weaponName)
+    local player = game:GetService("Players").LocalPlayer
+    if player.Backpack:FindFirstChild(weaponName) then
+        player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild(weaponName))
     end
+end
 
-    if _G.DropFruit then
-        spawn(function()
-            while wait() do
-                if _G.DropFruit then
-                    pcall(function()
-                        local player = game:GetService("Players").LocalPlayer
-                        for _,v in pairs(player.Backpack:GetChildren()) do
-                            if string.find(v.Name, "Fruit") then
-                                EquipWeapon(v.Name)
-                                wait(0.1)
-                                if player.PlayerGui.Main.Dialogue.Visible == true then
-                                    player.PlayerGui.Main.Dialogue.Visible = false
-                                end
-                                EquipWeapon(v.Name)
-                                player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
-                            end
-                        end
-                        for _,v in pairs(player.Character:GetChildren()) do
-                            if string.find(v.Name, "Fruit") then
-                                EquipWeapon(v.Name)
-                                wait(0.1)
-                                if player.PlayerGui.Main.Dialogue.Visible == true then
-                                    player.PlayerGui.Main.Dialogue.Visible = false
-                                end
-                                EquipWeapon(v.Name)
-                                player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
-                            end
-                        end
-                    end)
-                end
-            end
-        end)
+-- Helper function to stop tweening
+function StopTween(active)
+    if not active then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(1),
+            {CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame}
+        ):Play()
+    end
+end
+
+OrionLib:Init()
+-- Auto-enable the functions
+_G.AutoRandomFruit = true
+_G.AutoDropFruit = true
+_G.AutoTeleportCafe = true
+
+-- Auto Random Fruit function
+spawn(function()
+    while _G.AutoRandomFruit do
+        wait()
+        -- Insert the script to auto random fruit here
     end
 end)
+
+-- Auto Drop Fruit function
+spawn(function()
+    while _G.AutoDropFruit do
+        wait()
+        -- Insert the script to auto drop fruit here
+    end
+end)
+
+-- Auto Teleport Cafe function
+spawn(function()
+    while _G.AutoTeleportCafe do
+        wait()
+        local player = game.Players.LocalPlayer
+        local cafePosition = Vector3.new(355.42730712890625, 477.48077392578125, -5501.91748046875)  -- Replace these coordinates if needed
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
+    end
+end)
+
+OrionLib:Init()
+
+OrionLib:MakeNotification({
+    Name = "Night Hub",
+    Content = "Loading Config Complete!!",
+    Image = "rbxassetid://4483345998",
+    Time = 5
+})
