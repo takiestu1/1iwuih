@@ -11,14 +11,6 @@ local MainTab = Window:MakeTab({
     PremiumOnly = false
 })
 
--- Auto Random Fruits
-MainTab:AddButton({
-    Name = "Random Fruits",
-    Callback = function()
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "Buy")
-    end    
-})
-
 MainTab:AddToggle({
     Name = "Auto Random Fruits",
     Default = true,  -- Auto enabled
@@ -64,17 +56,6 @@ spawn(function()
                         player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
                     end
                 end
-                for _,v in pairs(player.Character:GetChildren()) do
-                    if string.find(v.Name, "Fruit") then
-                        EquipWeapon(v.Name)
-                        wait(0.1)
-                        if player.PlayerGui.Main.Dialogue.Visible == true then
-                            player.PlayerGui.Main.Dialogue.Visible = false
-                        end
-                        EquipWeapon(v.Name)
-                        player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
-                    end
-                end
             end)
         end
     end
@@ -93,32 +74,3 @@ MainTab:AddButton({
         end
     end    
 })
-
--- Auto Join Marine
-spawn(function()
-    while not game:IsLoaded() do wait() end
-    local team = "Marine"
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam", team)
-end)
-
--- Finish the script
-OrionLib:Init()
-
--- Helper function to equip weapon
-function EquipWeapon(weaponName)
-    local player = game:GetService("Players").LocalPlayer
-    if player.Backpack:FindFirstChild(weaponName) then
-        player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild(weaponName))
-    end
-end
-
--- Helper function to stop tweening
-function StopTween(active)
-    if not active then
-        game:GetService("TweenService"):Create(
-            game.Players.LocalPlayer.Character.HumanoidRootPart,
-            TweenInfo.new(1),
-            {CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame}
-        ):Play()
-    end
-end
