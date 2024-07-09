@@ -1,5 +1,5 @@
 -- Load Orion Library
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/takiestu1/341/main/NIGHT_HUB_UPDATE2.lua"))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
 -- Create a Window
 local Window = OrionLib:MakeWindow({Name = "My Script", HidePremium = false, SaveConfig = true, ConfigFolder = "MyScriptConfig"})
@@ -21,7 +21,7 @@ MainTab:AddButton({
 
 MainTab:AddToggle({
     Name = "Auto Random Fruits",
-    Default = false,
+    Default = true,
     Flag = "Auto Random Fruits",
     Save = true,
     Callback = function(Value)
@@ -40,7 +40,7 @@ end)
 -- Auto Drop Fruit
 MainTab:AddToggle({
     Name = "Auto Drop Fruit",
-    Default = false,
+    Default = true,
     Flag = "Auto Drop Fruit",
     Save = true,
     Callback = function(Value)
@@ -80,10 +80,32 @@ spawn(function()
     end
 end)
 
--- Ensure Auto Random Fruits and Auto Drop Fruit are running
-_G.Random_Auto = _G.Random_Auto or false
-_G.DropFruit = _G.DropFruit or false
+-- Teleport to Cafe
+MainTab:AddButton({
+    Name = "Teleport to Cafe",
+    Callback = function()
+        local teleportPositions = {
+            ["Cafe"] = CFrame.new(-380.479, 77.2204, 255.825)
+        }
+        local selectedPosition = teleportPositions["Cafe"]
+        if selectedPosition then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedPosition
+        end
+    end    
+})
 
+-- Auto Join Marine
+MainTab:AddButton({
+    Name = "Auto Join Marine",
+    Callback = function()
+        local player = game:GetService("Players").LocalPlayer
+        local args = {
+            [1] = "SetTeam",
+            [2] = "Marine"
+        }
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    end    
+})
 
 -- Finish the script
 OrionLib:Init()
@@ -107,27 +129,6 @@ function StopTween(active)
     end
 end
 
-OrionLib:Init()
--- Auto-enable the functions
+-- Automatically set Auto Random Fruits and Auto Drop Fruit to true
 _G.Random_Auto = true
 _G.DropFruit = true
-_G.AutoTeleportCafe = true
-
--- Auto Teleport Cafe function
-spawn(function()
-    while _G.AutoTeleportCafe do
-        wait()
-        local player = game.Players.LocalPlayer
-        local cafePosition = Vector3.new(413.0200500488281, 452.4256286621094, -5276.75390625)  -- Replace these coordinates if needed
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
-    end
-end)
-
-OrionLib:Init()
-
-OrionLib:MakeNotification({
-    Name = "Night Hub",
-    Content = "Loading Config Complete!!",
-    Image = "rbxassetid://4483345998",
-    Time = 5
-})
