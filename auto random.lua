@@ -123,50 +123,6 @@ function StopTween(active)
     end
 end
 
--- Ensure Auto Random Fruits and Auto Drop Fruit are active on script load
-if _G.Random_Auto then
-    spawn(function()
-        while wait(0.1) do
-            if _G.Random_Auto then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "Buy")
-            end
-        end
-    end)
-end
-
-if _G.DropFruit then
-    spawn(function()
-        while wait() do
-            if _G.DropFruit then
-                pcall(function()
-                    local player = game:GetService("Players").LocalPlayer
-                    for _,v in pairs(player.Backpack:GetChildren()) do
-                        if string.find(v.Name, "Fruit") then
-                            EquipWeapon(v.Name)
-                            wait(0.1)
-                            if player.PlayerGui.Main.Dialogue.Visible == true then
-                                player.PlayerGui.Main.Dialogue.Visible = false
-                            end
-                            EquipWeapon(v.Name)
-                            player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
-                        end
-                    end
-                    for _,v in pairs(player.Character:GetChildren()) do
-                        if string.find(v.Name, "Fruit") then
-                            EquipWeapon(v.Name)
-                            wait(0.1)
-                            if player.PlayerGui.Main.Dialogue.Visible == true then
-                                player.PlayerGui.Main.Dialogue.Visible = false
-                            end
-                            EquipWeapon(v.Name)
-                            player.Character:FindFirstChild(v.Name).EatRemote:InvokeServer("Drop")
-                        end
-                    end
-                end)
-            end
-        end
-    end)
-end
 
 OrionLib:Init()
 
