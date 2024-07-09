@@ -61,7 +61,7 @@ spawn(function()
     end
 end)
 
-MainTab:AddToggle({
+MainTab:AddButton({
     Name = "Teleport to Cafe",
     Callback = function()
         local teleportPositions = {
