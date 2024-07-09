@@ -56,7 +56,7 @@ spawn(function()
                 for _,v in pairs(player.Backpack:GetChildren()) do
                     if string.find(v.Name, "Fruit") then
                         EquipWeapon(v.Name)
-                        wait(0.1)
+                        wait(20)
                         if player.PlayerGui.Main.Dialogue.Visible == true then
                             player.PlayerGui.Main.Dialogue.Visible = false
                         end
@@ -83,23 +83,24 @@ end)
 -- Teleport to Cafe
 MainTab:AddButton({
     Name = "Teleport to Cafe",
+    Default = false,
     Callback = function()
-        local teleportPositions = {
-            ["Cafe"] = CFrame.new(355.42730712890625, 477.48077392578125, -5501.91748046875)
-        }
-        local selectedPosition = teleportPositions["Cafe"]
-        if selectedPosition then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedPosition
+        _G.AutoTeleportCafe = not _G.AutoTeleportCafe
+        while _G.AutoTeleportCafe do
+            wait()
+            local player = game.Players.LocalPlayer
+            local cafePosition = Vector3.new(357.69390869140625, 477.37457275390625, -5504.70458984375)  -- Replace these coordinates if needed
+            player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
         end
-    end    
+    end
 })
 
 -- Initialize Orion Library
 OrionLib:Init()
 
 -- Ensure Auto Random Fruits and Auto Drop Fruit are running
-_G.Random_Auto = _G.Random_Auto or false
-_G.DropFruit = _G.DropFruit or false
+_G.Random_Auto = true
+_G.DropFruit = true
 
 -- Helper function to equip weapon
 function EquipWeapon(weaponName)
@@ -109,9 +110,6 @@ function EquipWeapon(weaponName)
     end
 end
 
-_G.AutoRandomFruit = true
-_G.AutoDropFruit = true
-_G.AutoTeleportCafe = true
 
 -- Helper function to stop tweening
 function StopTween(active)
