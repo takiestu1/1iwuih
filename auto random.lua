@@ -109,6 +109,10 @@ function EquipWeapon(weaponName)
     end
 end
 
+_G.AutoRandomFruit = true
+_G.AutoDropFruit = true
+_G.AutoTeleportCafe = true
+
 -- Helper function to stop tweening
 function StopTween(active)
     if not active then
@@ -164,3 +168,12 @@ if _G.DropFruit then
         end
     end)
 end
+
+OrionLib:Init()
+
+OrionLib:MakeNotification({
+    Name = "Night Hub",
+    Content = "Loading Config Complete!!",
+    Image = "rbxassetid://4483345998",
+    Time = 5
+})
