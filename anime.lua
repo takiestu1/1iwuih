@@ -65,7 +65,7 @@ MainTab:AddToggle({
     Name = "Teleport to Cafe",
     Callback = function()
         local teleportPositions = {
-            ["Cafe"] = CFrame.new(61163.8515625, 11.6796875, 1819.7841796875)
+            ["Cafe"] = CFrame.new(413.0200500488281, 452.4256286621094, -5276.75390625)
         }
         local selectedPosition = teleportPositions["Cafe"]
         if selectedPosition then
@@ -79,11 +79,10 @@ spawn(function()
     while _G.AutoTeleportCafe do
         wait()
         local player = game.Players.LocalPlayer
-        local cafePosition = Vector3.new(61163.8515625, 11.6796875, 1819.7841796875)  -- Replace these coordinates if needed
+        local cafePosition = Vector3.new(413.0200500488281, 452.4256286621094, -5276.75390625)  -- Replace these coordinates if needed
         player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
     end
 end)
-OrionLib:Init()
 
 -- Helper function to stop tweening
 function StopTween(active)
