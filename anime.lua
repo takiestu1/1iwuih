@@ -74,25 +74,5 @@ MainTab:AddToggle({
     end    
 })
 
--- Auto Teleport Cafe function
-spawn(function()
-    while _G.AutoTeleportCafe do
-        wait()
-        local player = game.Players.LocalPlayer
-        local cafePosition = Vector3.new(413.0200500488281, 452.4256286621094, -5276.75390625)  -- Replace these coordinates if needed
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
-    end
-end)
-
--- Helper function to stop tweening
-function StopTween(active)
-    if not active then
-        game:GetService("TweenService"):Create(
-            game.Players.LocalPlayer.Character.HumanoidRootPart,
-            TweenInfo.new(1),
-            {CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame}
-        ):Play()
-    end
-end
 
 
