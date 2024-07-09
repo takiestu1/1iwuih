@@ -21,7 +21,7 @@ MainTab:AddButton({
 
 MainTab:AddToggle({
     Name = "Auto Random Fruits",
-    Default = false,
+    Default = true,  -- Auto enabled
     Flag = "Auto Random Fruits",
     Save = true,
     Callback = function(Value)
@@ -40,7 +40,7 @@ end)
 -- Auto Drop Fruit
 MainTab:AddToggle({
     Name = "Auto Drop Fruit",
-    Default = false,
+    Default = true,  -- Auto enabled
     Flag = "Auto Drop Fruit",
     Save = true,
     Callback = function(Value)
@@ -95,17 +95,11 @@ MainTab:AddButton({
 })
 
 -- Auto Join Marine
-MainTab:AddButton({
-    Name = "Auto Join Marine",
-    Callback = function()
-        local player = game:GetService("Players").LocalPlayer
-        local args = {
-            [1] = "SetTeam",
-            [2] = "Marine"
-        }
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-    end    
-})
+spawn(function()
+    while not game:IsLoaded() do wait() end
+    local team = "Marine"
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam", team)
+end)
 
 -- Finish the script
 OrionLib:Init()
@@ -128,24 +122,3 @@ function StopTween(active)
         ):Play()
     end
 end
-
--- Automatically activate functions
-_G.Random_Auto = true
-_G.DropFruit = true
-
--- Teleport to Cafe automatically
-local teleportPositions = {
-    ["Cafe"] = CFrame.new(-380.479, 77.2204, 255.825)
-}
-local selectedPosition = teleportPositions["Cafe"]
-if selectedPosition then
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedPosition
-end
-
--- Auto join Marine
-local player = game:GetService("Players").LocalPlayer
-local args = {
-    [1] = "SetTeam",
-    [2] = "Marine"
-}
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
