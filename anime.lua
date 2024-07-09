@@ -61,16 +61,11 @@ spawn(function()
     end
 end)
 
--- Teleport to Cafe
-MainTab:AddButton({
-    Name = "Teleport to Cafe",
-    Callback = function()
-        local teleportPositions = {
-            ["Cafe"] = CFrame.new(-380.479, 77.2204, 255.825)
-        }
-        local selectedPosition = teleportPositions["Cafe"]
-        if selectedPosition then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedPosition
-        end
-    end    
-})
+spawn(function()
+    while _G.AutoTeleportCafe do
+        wait()
+        local player = game.Players.LocalPlayer
+        local cafePosition = Vector3.new(413.0200500488281, 452.4256286621094, -5276.75390625)  -- Replace these coordinates if needed
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(cafePosition)
+    end
+end)
